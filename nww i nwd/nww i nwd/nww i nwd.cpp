@@ -42,4 +42,6 @@ cout << "nwd: " << nwd << endl;
 cout << "nww: " << nwd * dzielna * dzielnik << endl;
 }
 } while (nwd <= dzielnikPoczotkowy);
+  
+  return 0;
 }
