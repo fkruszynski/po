@@ -1,38 +1,71 @@
-﻿#include <iostream>
-#include <string>
+#include<iostream>
+#include<string>
+
 using namespace std;
 
-
-char koduj(char znak, int klucz) {
-	znak = toupper(znak); 
-	if (znak + klucz <= 90) return znak + klucz;
-	else return znak + klucz - 26;
-}
-
-
-char dekoduj(char znak, int klucz) {
-	znak = toupper(znak); 
-	if (znak - klucz >= 65) return znak - klucz;
-	else return znak - klucz + 26;
-}
-
-int main() {
-	int k;
-	string jawny;
-	cout << "podaj wyraz do zaszyfrowania: "; cin >> jawny;
-	cout << "podaj klucz szyfrujacy: "; cin >> k;
-
+inline int sprawdz(char znak)
+{
 	
-	string szyfrogram = ""; 
-	cout << "tekst jawny: " << jawny << endl;
+	if(znak >= 'a' && znak <= 'z') return 0;
+	
+	if(znak >= 'A' && znak <= 'Z') return 1;
+	
+	return 2;
+}
 
-	for (int i = 0; i < jawny.length(); i++) szyfrogram += koduj(jawny[i], k);
-	cout << "szyfrogram: " << szyfrogram << endl;
+void szyfruj(int klucz, string &tab)
+{		
+	
+	if(!(klucz >= -26 && klucz <= 26)) return;
+	
+	int pom;
+	char a, z;
+	
+	for(int i = 0; i < tab.size(); i++)
+	{
+		pom = sprawdz(tab[i]);
+	
+		if(pom < 2)
+		{
+			if(pom == 0) 
+				a = 'a', z = 'z';
+			else
+				a = 'A', z = 'Z';
+	
+			if(klucz >= 0)
+					
+				if(tab[i] + klucz <= z)
+					tab[i] += klucz;
+				else
+tab[i] = tab[i] + klucz - 26; 
+else
+if(tab[i] + klucz >= a)
+tab[i] += klucz;
+else
+tab[i] = tab[i] + klucz + 26;
+		}
+	}
+}
 
-
-	jawny = ""; /
-	for (int i = 0; i < szyfrogram.length(); i++) jawny += dekoduj(szyfrogram[i], k);
-	cout << "tekst jawny odszyfrowany: " << jawny << endl;
+int main()
+{
+	string tab; 
+	
+	int klucz;
+	
+	cout<<"Podaj zdanie do zaszyfrowania: ";
+	getline(cin, tab);
+	
+	cout<<"Podaj klucz z przedziału [-26..26]: ";
+	cin>>klucz;
+	
+	szyfruj(klucz,tab); 
+	
+	cout<<"Po zaszyfrowaniu: "<<tab<<endl;
+	
+	szyfruj(-klucz,tab); 
+	
+	cout<<"Po rozszyfrowaniu: "<<tab<<endl;
 
 	return 0;
 }
